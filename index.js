@@ -1,6 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
-var mongoose   = require('mongoose');
+var mongo = require('mongodb');
 var logfmt = require('logfmt');
 
 
@@ -14,9 +14,9 @@ app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
 app.use("/", express.static(__dirname + '/public'));
 
-// DB Connection
-//var mongoUri = process.env.MONGO_URL || 'mongodb://localhost/mydb';
-//mongoose.connect(mongoUri);
+var mongoUri = process.env.MONGOLAB_URI ||
+  process.env.MONGOHQ_URL ||
+  'mongodb://localhost/mydb';
 
 
 // Middleware
@@ -65,7 +65,13 @@ router.route('/testing')
 	  next();
 	})
 	.get(function(req, res, next) {
-	  res.json({message: "success"});
+	  mongo.Db.connect(mongoUri, function (err, db) {
+		   db.collection('mydocs', function(er, collection) {
+		   	 console.log(req);
+//		     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
+//		     });
+		   });
+		 });
 	})
 	.put(function(req, res, next) {
 	  next(new Error('not implemented'));
