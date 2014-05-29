@@ -11,48 +11,24 @@
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	<script>
 	$(document).ready(function(){
-		$( "#addmovie" ).submit(function( event ) {
-			console.log(event);
-			event.preventDefault();
-
-			var $form = $( this ),
-		    m_title = $form.find( "input[name='title']" ).val(),
-		    m_external = $form.find( "input[name='external']" ).val(),
-		    url = $form.attr( "action" );
-		 
-			// Send the data using post
-			var posting = $.post( url, { title: m_title, external: m_external } );
-			console.log(posting);
-
-			// Put the results in a div
-			posting.done(function( data ) {
-				console.log(data);
-				var content = $( data ).find( "#content" );
-				$( "#output" ).empty().append( content );
-			});
-		});
-
 		$( "#getmovie" ).submit(function( event ) {
 			console.log(event);
 			event.preventDefault();
 
 			var $form = $( this ),
 		    m_title = $form.find( "input[name='title']" ).val(),
-		    m_external = $form.find( "input[name='external']" ).val(),
 		    url = $form.attr( "action" );
 		 
 			// Send the data using post
-			var getting = $.get( url );
+			var getting = $.get( url, {title: m_title});
 
 			// Put the results in a div
 			getting.done(function( data ) {
-				console.log(typeof(data.message));
-				$( ".output" ).empty().append("<p>" + data.message + "</p>" );
+				$( ".output" ).empty().append("<p>" + JSON.stringify(data) + "</p>");
 			});
 		});		
 	});
 	</script>
-
 
 	<div class="container">
 		<div class="head">
@@ -61,8 +37,7 @@
 		<div class="apiform">
 			<form id="getmovie" action="/api/0.1/testing/">
 				<input type="text" name="title" size="100" maxlength="100" placeholder="Movie Title"/> 
-				<input type="text" name="external" size="100" maxlength="100" placeholder="Movie Info URL"/> 
-				<input type="submit" value="Add Movie"/> 
+				<input type="submit" value="Find Movie"/> 
 			</form>
 		</div>
 		<div class="output">

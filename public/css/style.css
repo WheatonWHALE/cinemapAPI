@@ -12,7 +12,7 @@ body {
 	height: 50px;
 	padding: 20px;
 	background-color: steelblue;
-	font-family: "Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif;
+	font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
 	font-size: 50px;
 	color: yellow;
 	text-align: center;
@@ -27,6 +27,7 @@ body {
 	height: 200px;
 	padding: 20px;
 	background-color: steelblue;
+	font-family: Monaco, Consolas, "Lucida Console", monospace;
 }
 
 input[type="submit"] {
