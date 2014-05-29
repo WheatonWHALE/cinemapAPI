@@ -15,7 +15,7 @@ app.use('/api/' + version, router);
 app.use("/", express.static(__dirname + '/public'));
 
 var mongoUri = process.env.MONGOLAB_URI ||
-  process.env.MONGOHQ_URL ||
+  process.env.MONGO_URL ||
   'mongodb://localhost/mydb';
 
 
@@ -67,9 +67,9 @@ router.route('/testing')
 	.get(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
 		   db.collection('mydocs', function(er, collection) {
-		   	 console.log(req);
-//		     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
-//		     });
+		     collection.find({"title": req.query.title}).toArray(function(er,rs) {
+		       res.send(rs);
+		     });
 		   });
 		 });
 	})
@@ -77,7 +77,15 @@ router.route('/testing')
 	  next(new Error('not implemented'));
 	})
 	.post(function(req, res, next) {
-	  next(new Error('not implemented'));
+		console.log("trying to connect");
+	  mongo.Db.connect(mongoUri, function (err, db) {
+	  		console.log("eihgeiorh");
+		   db.collection('mydocs', function(er, collection) {
+		   	 console.log(req);
+//		     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
+//		     });
+		   });
+		 });
 	})
 	.delete(function(req, res, next) {
 	  next(new Error('not implemented'));
