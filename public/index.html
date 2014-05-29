@@ -42,14 +42,12 @@
 		    url = $form.attr( "action" );
 		 
 			// Send the data using post
-			var posting = $.get( url );
-			console.log(posting);
+			var getting = $.get( url );
 
 			// Put the results in a div
-			posting.done(function( data ) {
-				console.log(data);
-				var content = $( data ).find( "#content" );
-				$( "#output" ).empty().append( content );
+			getting.done(function( data ) {
+				console.log(typeof(data.message));
+				$( ".output" ).empty().append("<p>" + data.message + "</p>" );
 			});
 		});		
 	});

@@ -26,13 +26,6 @@ router.use(function(req, res, next) {
 });
 
 
-// Routes
-router.route('/')
-	.get(function(req, res) {
-		res.render('index.html');
-	});
-
-
 router.route('/search')
 	.all(function(req, res, next) {
 	  // route-specific middleware
