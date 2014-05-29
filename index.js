@@ -15,8 +15,8 @@ app.use('/api/' + version, router);
 
 
 // DB Connection
-var mongoUri = process.env.MONGO_URL || 'mongodb://localhost/mydb';
-mongoose.connect(mongoUri);
+//var mongoUri = process.env.MONGO_URL || 'mongodb://localhost/mydb';
+//mongoose.connect(mongoUri);
 
 
 // Middleware
