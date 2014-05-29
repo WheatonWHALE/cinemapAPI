@@ -63,6 +63,28 @@ router.route('/search')
 // Delete
 
 
+// Testing
+
+router.route('/testing')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	  res.json({message: "success"});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+
 // No Valid Routes Left
 router.route('*')
 	.get(function(req, res){
