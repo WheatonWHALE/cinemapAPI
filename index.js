@@ -12,7 +12,7 @@ var version = "0.1";
 app.use(bodyParser());
 app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
-
+app.use("/", express.static(__dirname + '/public'));
 
 // DB Connection
 //var mongoUri = process.env.MONGO_URL || 'mongodb://localhost/mydb';
@@ -29,7 +29,7 @@ router.use(function(req, res, next) {
 // Routes
 router.route('/')
 	.get(function(req, res) {
-		res.json({message: 'hooray! welcome to our api!'});
+		res.render('index.html');
 	});
 
 
