@@ -77,13 +77,11 @@ router.route('/testing')
 	  next(new Error('not implemented'));
 	})
 	.post(function(req, res, next) {
-		console.log("trying to connect");
 	  mongo.Db.connect(mongoUri, function (err, db) {
-	  		console.log("eihgeiorh");
 		   db.collection('mydocs', function(er, collection) {
-		   	 console.log(req);
-//		     collection.insert({'mykey': 'myvalue'}, {safe: true}, function(er,rs) {
-//		     });
+		     collection.insert({'title': req.query.title, 'year': req.query.year, 'box': req.query.box}, function(er,rs) {
+		     	res.send(rs);
+		     });
 		   });
 		 });
 	})
