@@ -79,7 +79,7 @@ router.route('/testing')
 	.post(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
 		   db.collection('mydocs', function(er, collection) {
-		     collection.insert({'title': req.query.title, 'year': req.query.year, 'box': req.query.box}, function(er,rs) {
+		     collection.insert({'title': req.body.title, 'year': req.body.year, 'box': req.body.box}, function(er,rs) {
 		     	res.send(rs);
 		     });
 		   });
