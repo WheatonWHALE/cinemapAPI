@@ -103,6 +103,31 @@ router.route('/venues')
 	});
 
 
+router.route('/showings')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	  mongo.Db.connect(mongoUri, function (err, db) {
+		   db.collection('showings', function(er, collection) {
+		     collection.find({}).toArray(function(er,rs) {
+		       res.send(rs);
+		     });
+		   });
+		 });
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
 // Update
 
 
