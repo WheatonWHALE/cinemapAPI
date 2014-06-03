@@ -25,6 +25,8 @@ console.log(mongoUri);
 // Middleware
 router.use(function(req, res, next) {
 	// global middleware
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "X-Requested-With");
 	next();
 });
 
@@ -105,8 +107,8 @@ router.route('/venues')
 
 router.route('/showings')
 	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
+		// route-specific middleware
+		next();
 	})
 	.get(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
