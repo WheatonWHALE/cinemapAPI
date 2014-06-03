@@ -19,6 +19,9 @@ var mongoUri = process.env.MONGOLAB_URI ||
   'mongodb://localhost/mydb';
 
 
+console.log(mongoUri);
+
+
 // Middleware
 router.use(function(req, res, next) {
 	// global middleware
@@ -50,6 +53,55 @@ router.route('/search')
 
 // Read
 
+router.route('/features')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	  mongo.Db.connect(mongoUri, function (err, db) {
+		   db.collection('features', function(er, collection) {
+		     collection.find({}).toArray(function(er,rs) {
+		       res.send(rs);
+		     });
+		   });
+		 });
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+router.route('/venues')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	  mongo.Db.connect(mongoUri, function (err, db) {
+		   db.collection('venues', function(er, collection) {
+		     collection.find({}).toArray(function(er,rs) {
+		       res.send(rs);
+		     });
+		   });
+		 });
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
 
 // Update
 
@@ -66,7 +118,7 @@ router.route('/testing')
 	})
 	.get(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('mydocs', function(er, collection) {
+		   db.collection('features', function(er, collection) {
 		     collection.find({"title": req.query.title}).toArray(function(er,rs) {
 		       res.send(rs);
 		     });
@@ -78,7 +130,7 @@ router.route('/testing')
 	})
 	.post(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('mydocs', function(er, collection) {
+		   db.collection('features', function(er, collection) {
 		     collection.insert({'title': req.body.title, 'year': req.body.year, 'box': req.body.box}, function(er,rs) {
 		     	res.send(rs);
 		     });

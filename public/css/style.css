@@ -4,7 +4,7 @@ body {
 
 .container {
 	margin: auto;
-	width: 750px;
+	width: 1000px;
 	font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
 }
 
@@ -24,7 +24,7 @@ body {
 }
 
 .output {
-	height: 200px;
+	height: 800px;
 	padding: 20px;
 	background-color: steelblue;
 	font-family: Monaco, Consolas, "Lucida Console", monospace;
@@ -32,7 +32,7 @@ body {
 
 input[type="submit"] {
 	margin-top: 5px;
-	margin-left: 105px;
+	margin-left: 5px;
 	width: 100px;
 	height: 30px;
 	border: none;

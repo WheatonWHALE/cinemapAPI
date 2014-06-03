@@ -28,6 +28,27 @@
 			});
 		});		
 
+
+		$( "#getall" ).submit(function( event ) {
+			console.log(event);
+			event.preventDefault();
+
+			var $form = $( this ),
+		    url = $form.attr( "action" );
+		 
+			// Send the data using post
+			var getting = $.get( url, {});
+
+			// Put the results in a div
+			getting.done(function( data ) {
+				for (var i; i < data.length; i ++) {
+					console.log(data[i]);
+				};
+				$( ".output" ).empty().append("<p>" + JSON.stringify(data) + "</p>");
+			});
+		});		
+
+
 		$( "#addmovie" ).submit(function( event ) {
 			console.log(event);
 			event.preventDefault();
@@ -56,15 +77,19 @@
 			CineMap
 		</div>
 		<div class="apiform">
+			<form id="getall" action="/api/0.1/features/">
+				<input type="submit" value="Get All Features"/> 
+			</form>
+			<br>
 			<form id="getmovie" action="/api/0.1/testing/">
-				<input type="text" name="title" size="100" maxlength="100" placeholder="Movie Title"/> <br>
+				<input type="text" name="title" size="100" maxlength="100" placeholder="Movie Title"/> 
 				<input type="submit" value="Find Movie"/> 
 			</form>
-
+			<br>
 			<form id="addmovie" action="/api/0.1/testing/">
-				<input type="text" name="title" size="100" maxlength="100" placeholder="Movie Title"/> <br>
-				<input type="text" name="year" size="100" maxlength="100" placeholder="Year"/> <br>
-				<input type="text" name="box" size="100" maxlength="100" placeholder="Box Office Gross"/> <br>
+				<input type="text" name="title" size="100" maxlength="100" placeholder="Movie Title"/> 
+				<input type="text" name="year" size="100" maxlength="100" placeholder="Year"/> 
+				<input type="text" name="box" size="100" maxlength="100" placeholder="Box Office Gross"/> 
 				<input type="submit" value="Add Movie"/> 
 			</form>
 
