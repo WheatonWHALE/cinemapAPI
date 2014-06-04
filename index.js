@@ -93,15 +93,11 @@ router.route('/features/:featureid')
 				} catch (e) {
 					var tempObjectID = 0;
 				}
-				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
-					if (er) {
-						res.send(er);
+				collection.findOne({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send({});
 					} else {
-						if (rs.length == 1) {
-							res.send(rs[0]);
-						} else {
-							res.send(rs);
-						}
+						res.send(rs);
 					}
 		    	});
 			});
@@ -156,15 +152,11 @@ router.route('/venues/:venueid')
 				} catch (e) {
 					var tempObjectID = 0;
 				}
-				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
-					if (er) {
-						res.send(er);
+				collection.findOne({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send({});
 					} else {
-						if (rs.length == 1) {
-							res.send(rs[0]);
-						} else {
-							res.send(rs);
-						}
+						res.send(rs);
 					}
 		    	});
 			});
@@ -219,15 +211,11 @@ router.route('/showings/:showingid')
 				} catch (e) {
 					var tempObjectID = 0;
 				}
-				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
-					if (er) {
-						res.send(er);
+				collection.findOne({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send({});
 					} else {
-						if (rs.length == 1) {
-							res.send(rs[0]);
-						} else {
-							res.send(rs);
-						}
+						res.send(rs);
 					}
 		    	});
 			});
