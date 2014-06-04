@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var logfmt = require('logfmt');
-
+var ObjectID = require('mongodb').ObjectID;
 
 var app = express();
 var router = express.Router();
@@ -113,10 +113,21 @@ router.route('/venues/:venueid')
 	.get(function(req, res, next) {
 		mongo.Db.connect(mongoUri, function (err, db) {
 			db.collection('venues', function(er, collection) {
-				collection.findOne({"_id": req.params.venueid}, function(er,rs) {
-					console.log(rs);
-					console.log(req.params.venueid);
-					res.send(rs);
+				try {
+					var tempObjectID = new ObjectID(req.params.venueid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
+					if (er) {
+						res.send(er);
+					} else {
+						if (rs.length == 1) {
+							res.send(rs[0]);
+						} else {
+							res.send(rs);
+						}
+					}
 		    	});
 			});
 		});
