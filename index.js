@@ -80,6 +80,44 @@ router.route('/features')
 	});
 
 
+router.route('/features/:featureid')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('features', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.featureid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
+					if (er) {
+						res.send(er);
+					} else {
+						if (rs.length == 1) {
+							res.send(rs[0]);
+						} else {
+							res.send(rs);
+						}
+					}
+		    	});
+			});
+		});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
 router.route('/venues')
 	.all(function(req, res, next) {
 	  // route-specific middleware
@@ -156,6 +194,44 @@ router.route('/showings')
 		     });
 		   });
 		 });
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+router.route('/showings/:showingid')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('showings', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.showingid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.find({"_id": tempObjectID}).toArray(function(er,rs) {
+					if (er) {
+						res.send(er);
+					} else {
+						if (rs.length == 1) {
+							res.send(rs[0]);
+						} else {
+							res.send(rs);
+						}
+					}
+		    	});
+			});
+		});
 	})
 	.put(function(req, res, next) {
 	  next(new Error('not implemented'));
