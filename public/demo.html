@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Hello jQuery</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        <script>
+            $(document).ready(function(){
+                $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/venues/", function(json) {
+                    for (var i = 0; i < json.length; i++) {
+                        $('.output').append('<p>' + json[i].name + " &mdash; <b>" + json[i].address.street + ", " + json[i].address.city + ", " + json[i].address.state + "</b></p>");
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div class="output"></div>
+    </body>
+</html>
