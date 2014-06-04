@@ -105,6 +105,33 @@ router.route('/venues')
 	});
 
 
+router.route('/venues/:venueid')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('venues', function(er, collection) {
+				collection.findOne({"_id": req.params.venueid}, function(er,rs) {
+					console.log(rs);
+					console.log(req.params.venueid);
+					res.send(rs);
+		    	});
+			});
+		});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
 router.route('/showings')
 	.all(function(req, res, next) {
 		// route-specific middleware
