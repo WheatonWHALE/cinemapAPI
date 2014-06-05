@@ -250,14 +250,19 @@ router.route('/showings')
 		next();
 	})
 	.get(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('showings', function(er, collection) {
-		     collection.find({}).toArray(function(er,rs) {
-		       res.send(rs);
-		     });
-		   });
-		 });
-	})
+	 	mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('showings', function(er, collection) {
+				var query = {};
+				for (var key in req.query) {
+					query[key] = req.query[key];
+				} // ends for 
+				collection.find(query).toArray(function(er,rs) {
+					console.log(query);
+		    		res.send(rs);
+		    	}); // ends collection.find
+			}); // ends db.collection
+		}); // ends end mongo.Db.connect
+	}) // ends .get
 	.put(function(req, res, next) {
 	  next(new Error('not implemented'));
 	})
