@@ -55,16 +55,9 @@ router.route('/features')
 	.post(function(req, res, next) { // creating 
 	  mongo.Db.connect(mongoUri, function (err, db){
 	  	db.collection('features', function(er, collection) {
-	  		var newID = new ObjectID();
-	  		var documentToInsert = {title: req.query.title, external: req.query.external, _id: newID};
+	  		var documentToInsert = {title: req.query.title, external: req.query.external};
 	  		collection.insert(documentToInsert, function(err, records){
-				collection.findOne({"_id": newID}, function(er,rs) {
-					if (er || !rs) {
-						res.send({});
-					} else {
-						res.send(rs);
-					}
-		    	});	  			
+	  			res.send(records[0]);
 	  		});
 	  	}); // ends db.collection
 	  }); // ends mongo.Db.connect
