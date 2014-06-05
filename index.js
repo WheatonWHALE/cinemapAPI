@@ -196,7 +196,22 @@ router.route('/venues/:venueid')
 	  next(new Error('not implemented'));
 	})
 	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('venues', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.featureid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.remove({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send("Venue not found.");
+					} else {
+						res.send("Venue removed.");
+					}
+		    	});
+			});
+		});
 	});
 
 
@@ -212,8 +227,16 @@ router.route('/showings')
 				for (var key in req.query) {
 					query[key] = new Date(req.query[key]);
 				} // ends for 
+
+				if (req.query.startdate && req.query.enddate) {
+					query = {
+						showtime: {
+							$gte: new Date(req.query.startdate),
+							$lte: new Date(req.query.enddate)
+						}
+					}
+				}
 				collection.find(query).toArray(function(er,rs) {
-					console.log(query);
 		    		res.send(rs);
 		    	}); // ends collection.find
 			}); // ends db.collection
@@ -260,7 +283,22 @@ router.route('/showings/:showingid')
 	  next(new Error('not implemented'));
 	})
 	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('showings', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.featureid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.remove({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send("Showing not found.");
+					} else {
+						res.send("Showing removed.");
+					}
+		    	});
+			});
+		});
 	});
 
 
@@ -269,6 +307,7 @@ router.route('*')
 	.get(function(req, res){
 		res.send(404);
 	});
+
 
 var port = Number(process.env.PORT || 5000);
 var server = app.listen(port, function() {
