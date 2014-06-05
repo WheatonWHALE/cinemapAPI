@@ -65,16 +65,25 @@ router.route('/features')
 		   db.collection('features', function(er, collection) {
 		     collection.find({}).toArray(function(er,rs) {
 		       res.send(rs);
-		     });
-		   });
-		 });
-	})
-	.put(function(req, res, next) {
+		     }); // ends collection.find
+		   }); // ends db.collection
+		 }); // ends end mongo.Db.connect
+	}) // ends .get
+
+	.put(function(req, res, next) { // updating 
 	  next(new Error('not implemented'));
 	})
-	.post(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
+	.post(function(req, res, next) { // creating 
+	  mongo.Db.connect(mongoUri, function (err, db){
+	  	db.collection('features', function(er, collection) {
+	  		console.log("inside the bd.collection");
+	  		var documentToInsert = {title: "Maleficent", external: "http://www.imdb.com/title/tt1587310/"};
+	  		collection.insert(documentToInsert, function(err, records){
+	  			console.log("Record added as "+records[0]._id);
+	  		});
+	  	}); // ends db.collection
+	  }); // ends mongo.Db.connect
+	})// ends post (creating)
 	.delete(function(req, res, next) {
 	  next(new Error('not implemented'));
 	});
