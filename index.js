@@ -200,50 +200,6 @@ router.route('/venues/:venueid')
 	});
 
 
-router.route('/venues/bystate/')
-	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
-	})
-	.get(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.put(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.post(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
-	});
-
-
-router.route('/venues/bystate/:state')
-	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
-	})
-	.get(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('venues', function(er, collection) {
-		     collection.find({"address.state": req.params.state}).toArray(function(er,rs) {
-		       res.send(rs);
-		     });
-		   });
-		 });
-	})
-	.put(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.post(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
-	});
-
-
 router.route('/showings')
 	.all(function(req, res, next) {
 		// route-specific middleware
@@ -254,7 +210,7 @@ router.route('/showings')
 			db.collection('showings', function(er, collection) {
 				var query = {};
 				for (var key in req.query) {
-					query[key] = req.query[key];
+					query[key] = new Date(req.query[key]);
 				} // ends for 
 				collection.find(query).toArray(function(er,rs) {
 					console.log(query);
