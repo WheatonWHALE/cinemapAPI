@@ -145,6 +145,10 @@ router.route('/venues')
 	.get(function(req, res, next) {
 	  mongo.Db.connect(mongoUri, function (err, db) {
 		   db.collection('venues', function(er, collection) {
+		   		var array = {};
+		   		for (var keys in req.array) {
+		   			array[keys] = req.array[keys];
+		   		}
 		     collection.find({}).toArray(function(er,rs) {
 		       res.send(rs);
 		     });
