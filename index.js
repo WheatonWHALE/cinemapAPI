@@ -143,17 +143,17 @@ router.route('/venues')
 	  next();
 	})
 	.get(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('venues', function(er, collection) {
-		   		var array = {};
-		   		for (var keys in req.array) {
-		   			array[keys] = req.array[keys];
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('venues', function(er, collection) {
+		   		var query = {};
+		   		for (var keys in req.query) {
+		   			query[keys] = req.query[keys];
 		   		}
-		     collection.find({}).toArray(function(er,rs) {
-		       res.send(rs);
-		     });
-		   });
-		 });
+				collection.find(query).toArray(function(er,rs) {
+					res.send(rs);
+		    	});
+			});
+		});
 	})
 	.put(function(req, res, next) {
 	  next(new Error('not implemented'));
