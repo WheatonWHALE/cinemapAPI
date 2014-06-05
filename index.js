@@ -31,55 +31,40 @@ router.use(function(req, res, next) {
 });
 
 
-router.route('/search')
-	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
-	})
-	.get(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.put(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.post(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
-	});
-
-
-// Create
-
-
-// Read
-
 router.route('/features')
 	.all(function(req, res, next) {
 	  // route-specific middleware
 	  next();
 	})
 	.get(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('features', function(er, collection) {
-		     collection.find({}).toArray(function(er,rs) {
-		       res.send(rs);
-		     }); // ends collection.find
-		   }); // ends db.collection
-		 }); // ends end mongo.Db.connect
+	 	mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('features', function(er, collection) {
+				var query = {};
+				for (var key in req.query) {
+					query[key] = req.query[key];
+				}
+				collection.find(query).toArray(function(er,rs) {
+		    		res.send(rs);
+		    	}); // ends collection.find
+			}); // ends db.collection
+		}); // ends end mongo.Db.connect
 	}) // ends .get
-
 	.put(function(req, res, next) { // updating 
 	  next(new Error('not implemented'));
 	})
 	.post(function(req, res, next) { // creating 
 	  mongo.Db.connect(mongoUri, function (err, db){
 	  	db.collection('features', function(er, collection) {
-	  		console.log("inside the bd.collection");
-	  		var documentToInsert = {title: "Maleficent", external: "http://www.imdb.com/title/tt1587310/"};
+	  		var newID = new ObjectID();
+	  		var documentToInsert = {title: req.query.title, external: req.query.external, _id: newID};
 	  		collection.insert(documentToInsert, function(err, records){
-	  			console.log("Record added as "+records[0]._id);
+				collection.findOne({"_id": newID}, function(er,rs) {
+					if (er || !rs) {
+						res.send({});
+					} else {
+						res.send(rs);
+					}
+		    	});	  			
 	  		});
 	  	}); // ends db.collection
 	  }); // ends mongo.Db.connect
@@ -113,13 +98,49 @@ router.route('/features/:featureid')
 		});
 	})
 	.put(function(req, res, next) {
-	  next(new Error('not implemented'));
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('features', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.featureid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				var query = {};
+				for (var key in req.query) {
+					query[key] = req.query[key];
+				}
+				console.log({$set: query});
+				console.log(tempObjectID);
+				collection.update({"_id": tempObjectID}, {$set: query}, function(er,rs) {
+					if (er || !rs) {
+						res.send({});
+					} else {
+						res.send(rs);
+					}
+		    	});
+			});
+		});
 	})
 	.post(function(req, res, next) {
 	  next(new Error('not implemented'));
 	})
 	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('features', function(er, collection) {
+				try {
+					var tempObjectID = new ObjectID(req.params.featureid);
+				} catch (e) {
+					var tempObjectID = 0;
+				}
+				collection.remove({"_id": tempObjectID}, function(er,rs) {
+					if (er || !rs) {
+						res.send("Feature not found.");
+					} else {
+						res.send("Feature removed.");
+					}
+		    	});
+			});
+		});
 	});
 
 
@@ -283,46 +304,6 @@ router.route('/showings/:showingid')
 	.delete(function(req, res, next) {
 	  next(new Error('not implemented'));
 	});
-
-
-// Update
-
-
-// Delete
-
-
-// Testing
-
-router.route('/testing')
-	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
-	})
-	.get(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('features', function(er, collection) {
-		     collection.find({"title": req.query.title}).toArray(function(er,rs) {
-		       res.send(rs);
-		     });
-		   });
-		 });
-	})
-	.put(function(req, res, next) {
-	  next(new Error('not implemented'));
-	})
-	.post(function(req, res, next) {
-	  mongo.Db.connect(mongoUri, function (err, db) {
-		   db.collection('features', function(er, collection) {
-		     collection.insert({'title': req.body.title, 'year': req.body.year, 'box': req.body.box}, function(er,rs) {
-		     	res.send(rs);
-		     });
-		   });
-		 });
-	})
-	.delete(function(req, res, next) {
-	  next(new Error('not implemented'));
-	});
-
 
 
 // No Valid Routes Left
