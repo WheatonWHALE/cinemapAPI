@@ -27,7 +27,7 @@ router.use(function(req, res, next) {
 	// global middleware
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Headers", "X-Requested-With");
-	res.header("Access-Control-Allow-Methods", "*");
+	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	next();
 });
 
