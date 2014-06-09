@@ -18,7 +18,7 @@
 
 
         <script>
-            var map = L.mapbox.map('map', 'examples.map-i86nkdio').setView([41.94723, -71.18866], 9);
+            var map = L.mapbox.map('map', 'examples.map-i86nkdio').setView([41.94723, -71.18866], 3);
 
             function addMarker(venue) {
                 L.marker([venue.geocode.latitude, venue.geocode.longitude],
@@ -32,7 +32,7 @@
 
 
             $(document).ready(function(){
-                $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/venues/", function(json) {
+                $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/venues?address.state=MA", function(json) {
                     for (var i = 0; i < json.length; i++) {
                         addMarker(json[i]);
                     }
