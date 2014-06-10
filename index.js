@@ -10,7 +10,7 @@ var router = express.Router();
 
 var version = "0.1";
 
-app.use(cors());
+//app.use(cors());
 app.use(bodyParser());
 app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
@@ -27,10 +27,21 @@ console.log(mongoUri);
 // Middleware
 router.use(function(req, res, next) {
 	// global middleware
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization, Content-Length, X-Requested-With');
+
+    // intercept OPTIONS method
+    if ('OPTIONS' == req.method) {
+      res.send(200);
+    }
+    else {
+      next();
+    }
 	// res.header("Access-Control-Allow-Origin", "*");
 	// res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
-	next();
+	// next();
 });
 
 
