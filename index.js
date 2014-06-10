@@ -322,7 +322,7 @@ router.route('/showings/:showingid')
 	});
 
 
-router.route('/counts/:col')
+router.route('/counts/temporal')
 	.all(function(req, res, next) {
 		// route-specific middleware
 		next();
@@ -351,6 +351,31 @@ router.route('/counts/:col')
 			} catch (e) {
 				res.send("Invalid collection name.");
 			}
+		});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+router.route('/counts/states')
+	.all(function(req, res, next) {
+		// route-specific middleware
+		next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection("venues", function(er, collection) {
+				collection.aggregate([{$group : {_id: '$address.state', count: { $sum: 1 }}}, {$sort: {_id: 1}}], function(er,rs) {
+					res.send(rs);
+		    	});
+			});
 		});
 	})
 	.put(function(req, res, next) {

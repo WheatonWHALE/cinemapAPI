@@ -8,6 +8,11 @@ body {
 	font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
 }
 
+.showtimes {
+	margin: auto;
+	width: 800;
+}
+
 .head {
 	height: 50px;
 	padding: 20px;
