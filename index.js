@@ -26,7 +26,7 @@ console.log(mongoUri);
 router.use(function(req, res, next) {
 	// global middleware
 	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With");
+//	res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
 	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	next();
 });
@@ -300,6 +300,48 @@ router.route('/showings/:showingid')
 		    	});
 			});
 		});
+	});
+
+
+router.route('/counts/:col')
+	.all(function(req, res, next) {
+		// route-specific middleware
+		next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			try {
+				var collectionName = req.params.col;
+				var query = {};
+				for (var key in req.query) {
+					query[key] = new Date(req.query[key]);
+				}
+				if (req.query.startdate && req.query.enddate) {
+					query = {
+						showtime: {
+							$gte: new Date(req.query.startdate),
+							$lte: new Date(req.query.enddate)
+						}
+					}
+				}				
+				db.collection(collectionName, function(er, collection) {
+					collection.count(query, function(er,rs) {
+						res.send("9");
+			    	});
+				});
+			} catch (e) {
+				res.send("Invalid collection name.");
+			}
+		});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
 	});
 
 
