@@ -119,12 +119,16 @@ router.route('/features/:featureid')
 				console.log({$set: query});
 				console.log(tempObjectID);
 				collection.update({"_id": tempObjectID}, {$set: query}, function(er,rs) {
-					console.log("ER: " + er);
-					console.log("RS: " + rs);
 					if (er || !rs) {
 						res.send({});
 					} else {
-						res.send(rs);
+						collection.findOne({"_id": tempObjectID}, function(er,rs) {
+							if (er || !rs) {
+								res.send({});
+							} else {
+								res.send(rs);
+							}
+				    	});
 					}
 		    	});
 			});
