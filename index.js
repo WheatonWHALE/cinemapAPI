@@ -345,7 +345,7 @@ router.route('/counts/:col')
 				}				
 				db.collection(collectionName, function(er, collection) {
 					collection.count(query, function(er,rs) {
-						res.send("9");
+						res.send("'"+ rs +"'");
 			    	});
 				});
 			} catch (e) {
