@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var logfmt = require('logfmt');
+var cors = require('cors');
 var ObjectID = require('mongodb').ObjectID;
 
 var app = express();
@@ -9,6 +10,7 @@ var router = express.Router();
 
 var version = "0.1";
 
+app.use(cors());
 app.use(bodyParser());
 app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
@@ -25,9 +27,9 @@ console.log(mongoUri);
 // Middleware
 router.use(function(req, res, next) {
 	// global middleware
-	res.header("Access-Control-Allow-Origin", "*");
-	res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
-	res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+	// res.header("Access-Control-Allow-Origin", "*");
+	// res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type");
+	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	next();
 });
 
