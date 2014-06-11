@@ -132,6 +132,7 @@
             </div>
           </div>
 
+          <div><canvas id="showtimes-line" data-type="Line"></canvas></div>
 
           <table class="table table-striped" style="width: 90%; margin: auto;">
             <thead>
@@ -260,7 +261,7 @@
               data : []
                 }]
               };
-                $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/counts/states", function(json) {
+                $.getJSON("http://www.cinemap.io/api/0.1/counts/states", function(json) {
                     for (var i = 0; i < json.length; i++) {
                       data.labels.push(json[i]["_id"]);
                       data.datasets[0].data.push(json[i]["count"]);
@@ -275,6 +276,36 @@
                 });
             });
         </script>
+
+
+        <script type="text/javascript">
+          $(document).ready(function(){
+            var data = {
+              labels: [],
+              datasets: [{
+              fillColor : "rgba(151,187,205,0.5)",
+              strokeColor : "rgba(151,187,205,1)",
+              pointColor : "rgba(151,187,205,1)",
+              pointStrokeColor : "#eee",
+              data : []
+                }]
+              };
+                $.getJSON("http://www.cinemap.io/api/0.1/counts/showtimes", function(json) {
+                    for (var i = 0; i < json.length; i++) {
+                      data.labels.push(json[i]["_id"]);
+                      data.datasets[0].data.push(json[i]["count"]);
+                    }
+
+              //Get context with jQuery - using jQuery's .get() method.
+          var ctx = $("#showtimes-line").get(0).getContext("2d");
+          $("#showtimes-line").get(0).setAttribute('width', '800');
+          $("#showtimes-line").get(0).setAttribute('height', '600');
+          //This will get the first returned node in the jQuery collection.
+          var myNewChart = new Chart(ctx).Line(data);  
+                });
+            });
+        </script>
+
 
   </body>
 </html>
