@@ -1,229 +1,280 @@
+
 <!DOCTYPE html>
-<html>
-    <head>
-        <title>CineMap </title>
-        <script src='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.js'></script>
-        <link href='https://api.tiles.mapbox.com/mapbox.js/v1.6.3/mapbox.css' rel='stylesheet' />
-        <script src="js/Chart.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <style>
-            #map {
-                height: 500px;
-                width: 800px;
-                margin: auto;
-            }
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CineMap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-            #showtimes {
-				margin: auto;
-			}
+    <!-- Loading Bootstrap -->
+    <link href="bootstrap/css/bootstrap.css" rel="stylesheet">
 
-			.headline {
-				height: 100px;
-				line-height: 100px;
-				width: 300px;
-				font-size: 64px;
-				text-align: center;
-				margin: auto;
-			}
+    <!-- Loading Flat UI -->
+    <link href="css/flat-ui.css" rel="stylesheet">
 
-			.container {
-				margin: auto;
-				width: 800px;
-			}
-        </style>
-    </head>
-    <body>
-    	<div class="container">
-	    	<div class="headline">CineMap</div>
-	        <div id="showtimes"><canvas id="line" data-type="Line"></canvas></div>
-	        <div id="map"></div>
-       	</div>
+    <link rel="shortcut icon" href="images/favicon.ico">
 
-        <script>
-            var map = L.mapbox.map('map', 'examples.map-i86nkdio').setView([41.94723, -71.18866], 3);
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements. All other JS at the end of file. -->
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <style>
+      .navbar-static-top {
+        margin-bottom: 19px;
+      }
 
-            function addMarker(venue) {
-                L.marker([venue.geocode.latitude, venue.geocode.longitude],
-                        {
-                            icon: L.mapbox.marker.icon({
-                                'marker-color': '#f86767'
-                            })
-                        }).addTo(map)
-                        .bindPopup("<b>" + venue.name + "</b><br>" + venue.address.street + "<br>" + venue.address.city + ", " + venue.address.state);
-            }
-
-
-            $(document).ready(function(){
-                $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/venues?address.state=MA", function(json) {
-                    for (var i = 0; i < json.length; i++) {
-                        addMarker(json[i]);
-                    }
-                });
-            });
-
-            var popup = L.popup();
-
-            function onMapClick(e) {
-                popup
-                    .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
-                    .openOn(map);
-            }
-
-            map.on('click', onMapClick);  
-        </script>
+      .container {
+        margin-bottom: 25px;
+      }
+    </style>
+    
+    <!-- Static navbar -->
+    <div class="navbar navbar-default navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+          </button>
+          <a class="navbar-brand" href="/">CineMap</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="#jumbo-features">Features</a></li>
+            <li><a href="#jumbo-venues">Venues</a></li>
+            <li><a href="#jumbo-showings">Showings</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Additional Resources <b class="caret"></b></a>
+              <span class="dropdown-arrow"></span>
+              <ul class="dropdown-menu">
+                <li><a href="http://cinematreasures.org/">Cinema Treasures</a></li>
+                <li><a href="http://www.imdb.com/">IMDb</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://www.wheatoncollege.edu/">Wheaton College</a></li>
+            <li><form class="navbar-form navbar-right" onclick="alert('EROROROROROR');" ="#" role="search">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <input class="form-control" id="navbarInput-01" type="search" placeholder="Search">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn"><span class="fui-search"></span></button>
+                      </span>            
+                    </div>
+                  </div>               
+                </form>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
 
 
+    <div class="container">
+      <div class="jumbotron" id="jumbo-features">
+        <h1>CineMap Features</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+          <table class="table table-striped" style="width: 90%; margin: auto;">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>External Link</th>
+              </tr>
+            </thead>
+            <tbody id="features-listing">
+            </tbody>
+          </table>
+    </div>
+
+
+    <div class="container" id="jumbo-venues">
+      <div class="jumbotron">
+        <h1>CineMap Venues</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+      <div style="width: 800px; margin: auto;">
+        <div id="showtimes"><canvas id="line" data-type="Line"></canvas></div>      
+      </div>
+
+
+
+
+      <div class="jumbotron" id="jumbo-showings">
+        <h1>CineMap Showings</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn" type="button"><span class="fui-calendar"></span></button>
+              </span>
+              <div>
+                <input type="text" class="form-control" value="14 March, 2013" id="datepicker-01" style="width: 200px;"/>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn" type="button"><span class="fui-calendar"></span></button>
+              </span>
+              <div>
+                <input type="text" class="form-control" value="14 March, 2013" id="datepicker-02" style="width: 200px;"/>
+              </div>
+            </div>
+          </div>
+
+
+          <table class="table table-striped" style="width: 90%; margin: auto;">
+            <thead>
+              <tr>
+                <th>Venue ID</th>
+                <th>Feature ID</th>
+                <th>Showtime</th>
+              </tr>
+            </thead>
+            <tbody id="showings-listing">
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+
+
+
+
+    </div>
+
+
+
+
+
+
+
+<div class="bottom-menu" style="margin-top: 50px;">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-2 navbar-brand">
+            <a href="#fakelink">CineMap</a>
+          </div>
+
+          <div class="col-md-8">
+            <ul class="bottom-links">
+              <li><a href="#fakelink">About Us</a></li>
+              <li><a href="#fakelink">Privacy</a></li>
+              <li><a href="#fakelink">Terms</a></li>
+              <li><a href="#fakelink">Follow Us</a></li>
+              <li><a href="#fakelink">Support</a></li>
+            </ul>
+          </div>
+
+          <div class="col-md-2">
+            <ul class="bottom-icons">
+              <li><a href="#fakelink" class="fui-pinterest"></a></li>
+              <li><a href="#fakelink" class="fui-facebook"></a></li>
+              <li><a href="#fakelink" class="fui-twitter"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/Chart.js"></script>
+
+
+    <script>
+      $(document).ready(function(){
+        $.ajax({
+           type: 'GET',
+           url: 'http://www.cinemap.io/api/0.1/features',
+           success: function(data) {
+             for (var item in data) {
+               $("#features-listing").append("<tr><td>" + data[item].title  + "</td><td>" + data[item].external + "</td></tr>");
+             }
+           }
+         });
+      });
+
+
+      $(document).ready(function(){
+        $.ajax({
+           type: 'GET',
+           url: 'http://www.cinemap.io/api/0.1/showings',
+           success: function(data) {
+             for (var item in data) {
+               $("#showings-listing").append("<tr><td>" + data[item].venue_id  + "</td><td>" + data[item].feature_id + "</td><td>" + (new Date(data[item].showtime)).toUTCString() + "</td></tr>");
+             }
+           }
+         });
+      });
+
+
+      // jQuery UI Datepicker JS init
+      var datepickerSelector = '#datepicker-01';
+      $(datepickerSelector).datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        dateFormat: "d MM, yy",
+        yearRange: '-1:+1'
+      }).prev('.btn').on('click', function (e) {
+        e && e.preventDefault();
+        $(datepickerSelector).focus();
+      });
+
+      // Now let's align datepicker with the prepend button
+      $(datepickerSelector).datepicker('widget').css({'margin-left': -$(datepickerSelector).prev('.btn').outerWidth()});
+    </script>
 
         <script type="text/javascript">
-	        $(document).ready(function(){
-	        	var data = {
-	        		labels: [],
-	        		datasets: [{
-							fillColor : "rgba(151,187,205,0.5)",
-							strokeColor : "rgba(151,187,205,1)",
-							pointColor : "rgba(151,187,205,1)",
-							pointStrokeColor : "#eee",
-							data : []
-	        			}]
-	        		};
+          $(document).ready(function(){
+            var data = {
+              labels: [],
+              datasets: [{
+              fillColor : "rgba(151,187,205,0.5)",
+              strokeColor : "rgba(151,187,205,1)",
+              pointColor : "rgba(151,187,205,1)",
+              pointStrokeColor : "#eee",
+              data : []
+                }]
+              };
                 $.getJSON("http://infinite-citadel-8572.herokuapp.com/api/0.1/counts/states", function(json) {
                     for (var i = 0; i < json.length; i++) {
-                    	data.labels.push(json[i]["_id"]);
-                    	data.datasets[0].data.push(json[i]["count"]);
+                      data.labels.push(json[i]["_id"]);
+                      data.datasets[0].data.push(json[i]["count"]);
                     }
 
-        			//Get context with jQuery - using jQuery's .get() method.
-					var ctx = $("#line").get(0).getContext("2d");
-					$("#line").get(0).setAttribute('width', '800');
-					$("#line").get(0).setAttribute('height', '600');
-					//This will get the first returned node in the jQuery collection.
-					var myNewChart = new Chart(ctx).Radar(data);	
+              //Get context with jQuery - using jQuery's .get() method.
+          var ctx = $("#line").get(0).getContext("2d");
+          $("#line").get(0).setAttribute('width', '800');
+          $("#line").get(0).setAttribute('height', '600');
+          //This will get the first returned node in the jQuery collection.
+          var myNewChart = new Chart(ctx).Radar(data);  
                 });
             });
-        	
-
-			// var data = {
-			// 	labels : ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"],
-			// 	datasets : [
-			// 		{
-			// 			fillColor : "rgba(220,220,220,0.5)",
-			// 			strokeColor : "rgba(220,220,220,1)",
-			// 			pointColor : "rgba(220,220,220,1)",
-			// 			pointStrokeColor : "#fff",
-			// 			data : [65,59,90,81,56,55,40]
-			// 		},
-			// 		{
-			// 			fillColor : "rgba(151,187,205,0.5)",
-			// 			strokeColor : "rgba(151,187,205,1)",
-			// 			pointColor : "rgba(151,187,205,1)",
-			// 			pointStrokeColor : "#fff",
-			// 			data : [28,48,40,19,96,27,100]
-			// 		},
-			// 		{
-			// 			fillColor : "rgba(100,167,185,0.5)",
-			// 			strokeColor : "rgba(151,187,205,1)",
-			// 			pointColor : "rgba(151,187,205,1)",
-			// 			pointStrokeColor : "#fff",
-			// 			data : [2,4,10,19,196,127,200]
-			// 		}
-
-			// 	]
-			// };
-
-
-
-
-			//Get context with jQuery - using jQuery's .get() method.
-			// var ctx = $("#line").get(0).getContext("2d");
-			// $("#line").get(0).setAttribute('width', '1400');
-			// $("#line").get(0).setAttribute('height', '600');
-			// //This will get the first returned node in the jQuery collection.
-			// var myNewChart = new Chart(ctx).Bar(data);			
-
-			// myNewChart.defaults = {
-							
-			// 	//Boolean - If we show the scale above the chart data			
-			// 	scaleOverlay : false,
-				
-			// 	//Boolean - If we want to override with a hard coded scale
-			// 	scaleOverride : false,
-				
-			// 	//** Required if scaleOverride is true **
-			// 	//Number - The number of steps in a hard coded scale
-			// 	scaleSteps : null,
-			// 	//Number - The value jump in the hard coded scale
-			// 	scaleStepWidth : null,
-			// 	//Number - The scale starting value
-			// 	scaleStartValue : null,
-
-			// 	//String - Colour of the scale line	
-			// 	scaleLineColor : "rgba(0,0,0,.1)",
-				
-			// 	//Number - Pixel width of the scale line	
-			// 	scaleLineWidth : 1,
-
-			// 	//Boolean - Whether to show labels on the scale	
-			// 	scaleShowLabels : true,
-				
-			// 	//Interpolated JS string - can access value
-			// 	scaleLabel : "<%=value%>",
-				
-			// 	//String - Scale label font declaration for the scale label
-			// 	scaleFontFamily : "'Arial'",
-				
-			// 	//Number - Scale label font size in pixels	
-			// 	scaleFontSize : 12,
-				
-			// 	//String - Scale label font weight style	
-			// 	scaleFontStyle : "normal",
-				
-			// 	//String - Scale label font colour	
-			// 	scaleFontColor : "#666",	
-				
-			// 	///Boolean - Whether grid lines are shown across the chart
-			// 	scaleShowGridLines : true,
-				
-			// 	//String - Colour of the grid lines
-			// 	scaleGridLineColor : "rgba(0,0,0,.05)",
-				
-			// 	//Number - Width of the grid lines
-			// 	scaleGridLineWidth : 1,	
-				
-			// 	//Boolean - Whether the line is curved between points
-			// 	bezierCurve : true,
-				
-			// 	//Boolean - Whether to show a dot for each point
-			// 	pointDot : true,
-				
-			// 	//Number - Radius of each point dot in pixels
-			// 	pointDotRadius : 3,
-				
-			// 	//Number - Pixel width of point dot stroke
-			// 	pointDotStrokeWidth : 1,
-				
-			// 	//Boolean - Whether to show a stroke for datasets
-			// 	datasetStroke : true,
-				
-			// 	//Number - Pixel width of dataset stroke
-			// 	datasetStrokeWidth : 2,
-				
-			// 	//Boolean - Whether to fill the dataset with a colour
-			// 	datasetFill : true,
-				
-			// 	//Boolean - Whether to animate the chart
-			// 	animation : true,
-
-			// 	//Number - Number of animation steps
-			// 	animationSteps : 60,
-				
-			// 	//String - Animation easing effect
-			// 	animationEasing : "easeOutQuart",
-
-			// 	//Function - Fires when the animation is complete
-			// 	onAnimationComplete : null
-			// };
-
         </script>
-    </body>
+
+  </body>
 </html>
