@@ -45,6 +45,12 @@ router.use(function(req, res, next) {
 });
 
 
+router.route('/')
+	.get(function(req, res, next) {
+	 	res.send("YAY!");
+	});
+
+
 router.route('/features')
 	.all(function(req, res, next) {
 	  // route-specific middleware
