@@ -3,10 +3,12 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var logfmt = require('logfmt');
 var cors = require('cors');
+var cons = require('consolidate');
 var ObjectID = require('mongodb').ObjectID;
 
 var app = express();
 var router = express.Router();
+var homepage = express.Router();
 
 var version = "0.1";
 
@@ -14,7 +16,11 @@ var version = "0.1";
 app.use(bodyParser());
 app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
+app.use('/', homepage);
 app.use("/", express.static(__dirname + '/public'));
+
+app.set('view engine', 'hbs');
+app.set('views', __dirname + '/views');
 
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGO_URL ||
@@ -45,7 +51,11 @@ router.use(function(req, res, next) {
 });
 
 
-router.route('/')
+homepage.route('/')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
 	.get(function(req, res, next) {
 	 	res.send("YAY!");
 	});
