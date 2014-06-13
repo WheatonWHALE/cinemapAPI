@@ -68,6 +68,15 @@ homepage.route('/showings')
 	});
 
 
+homepage.route('/upload')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('upload', {});
+	});
+
 
 /**
 
