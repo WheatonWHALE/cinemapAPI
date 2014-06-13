@@ -1,0 +1,45 @@
+<script src="js/cinemap/cinemap-showings.js"></script>
+
+<div class="container">
+  <div class="jumbotron">
+    <h1>CineMap Showings</h1>
+    <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+  </div>
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn" type="button"><span class="fui-calendar"></span></button>
+          </span>
+          <div>
+            <input type="text" class="form-control" value="14 March, 2013" id="datepicker-01" style="width: 200px;"/>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="form-group">
+        <div class="input-group">
+          <span class="input-group-btn">
+            <button class="btn" type="button"><span class="fui-calendar"></span></button>
+          </span>
+          <div>
+            <input type="text" class="form-control" value="14 March, 2013" id="datepicker-02" style="width: 200px;"/>
+          </div>
+        </div>
+      </div>
+
+      <div><canvas id="showtimes-line" data-type="Line"></canvas></div>
+
+      <table class="table table-striped" style="width: 90%; margin: auto;">
+        <thead>
+          <tr>
+            <th>Venue ID</th>
+            <th>Feature ID</th>
+            <th>Showtime</th>
+          </tr>
+        </thead>
+        <tbody id="showings-listing">
+        </tbody>
+      </table>
+</div>

@@ -34,8 +34,39 @@ homepage.route('/')
 	  next();
 	})
 	.get(function(req, res, next) {
-	 	res.render('index', {foo: 17});
+	 	res.render('index', {});
 	});
+
+
+homepage.route('/features')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('features', {});
+	});
+
+
+homepage.route('/venues')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('venues', {});
+	});
+
+
+homepage.route('/showings')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('showings', {});
+	});
+
 
 
 /**
