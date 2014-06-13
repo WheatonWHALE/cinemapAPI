@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var mongo = require('mongodb');
 var logfmt = require('logfmt');
 var cors = require('cors');
-var cons = require('consolidate');
+var hbs = require('hbs');
 var ObjectID = require('mongodb').ObjectID;
 
 var app = express();
@@ -12,23 +12,44 @@ var homepage = express.Router();
 
 var version = "0.1";
 
-//app.use(cors());
+app.use(express.static(__dirname + '/public'));
 app.use(bodyParser());
 app.use(logfmt.bodyParserStream());
 app.use('/api/' + version, router);
 app.use('/', homepage);
-app.use("/", express.static(__dirname + '/public'));
 
 app.set('view engine', 'hbs');
-app.set('views', __dirname + '/views');
+hbs.registerPartials(__dirname + '/views/partials');
 
 var mongoUri = process.env.MONGOLAB_URI ||
   process.env.MONGO_URL ||
   'mongodb://localhost/mydb';
 
-
 console.log(mongoUri);
 
+
+homepage.route('/')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('index', {foo: 17});
+	});
+
+
+/**
+
+RESTful API for CineMap
+
+Route 						HTTP Verb 		Description
+/api/features 				GET 			Get all the features.
+/api/features				POST			Create a feature.
+/api/features/:featureid	GET				Get a single feature.
+/api/features/:featureid	PUT				Update a feature with new info.
+/api/features/:featureid	DELETE			Delete a feature.
+
+**/
 
 // Middleware
 router.use(function(req, res, next) {
@@ -49,16 +70,6 @@ router.use(function(req, res, next) {
 	// res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
 	// next();
 });
-
-
-homepage.route('/')
-	.all(function(req, res, next) {
-	  // route-specific middleware
-	  next();
-	})
-	.get(function(req, res, next) {
-	 	res.send("YAY!");
-	});
 
 
 router.route('/features')

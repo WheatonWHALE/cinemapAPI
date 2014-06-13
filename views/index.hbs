@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CineMap</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {{> header}}
+  </head>
+  <body>
+    <style>
+      .navbar-static-top {
+        margin-bottom: 19px;
+      }
+
+      .container {
+        margin-bottom: 25px;
+      }
+    </style>
+    
+    {{> navbar}}
+
+
+
+    <div class="container">
+      <div class="jumbotron" id="jumbo-features">
+        <h1>CineMap Features</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+          <table class="table table-striped" style="width: 90%; margin: auto;">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>External Link</th>
+              </tr>
+            </thead>
+            <tbody id="features-listing">
+            </tbody>
+          </table>
+    </div>
+
+
+    <div class="container" id="jumbo-venues">
+      <div class="jumbotron">
+        <h1>CineMap Venues</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+      <div style="width: 800px; margin: auto;">
+        <div id="showtimes"><canvas id="line" data-type="Line"></canvas></div>      
+      </div>
+
+
+
+
+      <div class="jumbotron" id="jumbo-showings">
+        <h1>CineMap Showings</h1>
+        <p class="lead">The primary purpose of CineMap is to provide users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures. CineMap will allow users to view information about individual theaters’ ownership and years of operation. </p>
+      </div>
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn" type="button"><span class="fui-calendar"></span></button>
+              </span>
+              <div>
+                <input type="text" class="form-control" value="14 March, 2013" id="datepicker-01" style="width: 200px;"/>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <div class="input-group">
+              <span class="input-group-btn">
+                <button class="btn" type="button"><span class="fui-calendar"></span></button>
+              </span>
+              <div>
+                <input type="text" class="form-control" value="14 March, 2013" id="datepicker-02" style="width: 200px;"/>
+              </div>
+            </div>
+          </div>
+
+          <div><canvas id="showtimes-line" data-type="Line"></canvas></div>
+
+          <table class="table table-striped" style="width: 90%; margin: auto;">
+            <thead>
+              <tr>
+                <th>Venue ID</th>
+                <th>Feature ID</th>
+                <th>Showtime</th>
+              </tr>
+            </thead>
+            <tbody id="showings-listing">
+            </tbody>
+          </table>
+    </div>
+
+
+
+
+
+
+    {{> footer}}
+
+
+
+    <!-- Load JS here for greater good =============================-->
+    <script src="js/jquery-1.8.3.min.js"></script>
+    <script src="js/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="js/jquery.ui.touch-punch.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-select.js"></script>
+    <script src="js/bootstrap-switch.js"></script>
+    <script src="js/flatui-checkbox.js"></script>
+    <script src="js/flatui-radio.js"></script>
+    <script src="js/jquery.tagsinput.js"></script>
+    <script src="js/jquery.placeholder.js"></script>
+    <script src="js/application.js"></script>
+    <script src="js/Chart.js"></script>
+    <script src="js/cinemap.js"></script>
+  </body>
+</html>
