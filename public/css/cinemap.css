@@ -1,7 +1,15 @@
 .navbar-static-top {
-margin-bottom: 19px;
+	margin-bottom: 50px;
 }
 
-.container {
-margin-bottom: 25px;
+.bottom-menu {
+	margin-top: 20px;
+}
+
+.jumbotron {
+    background-image: url(../images/wheaton-seal.png);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+	min-height: 350px;
 }
