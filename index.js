@@ -78,6 +78,16 @@ homepage.route('/upload')
 	});
 
 
+homepage.route('/about')
+	.all(function(req, res, next) {
+	  // route-specific middleware
+	  next();
+	})
+	.get(function(req, res, next) {
+	 	res.render('about', {});
+	});
+
+
 /**
 
 RESTful API for CineMap
