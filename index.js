@@ -481,6 +481,34 @@ router.route('/counts/showtimes')
 	});
 
 
+router.route('/amchart/heatmap')
+	.all(function(req, res, next) {
+		// route-specific middleware
+		next();
+	})
+	.get(function(req, res, next) {
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection("venues", function(er, collection) {
+				collection.aggregate([
+							{$group : {_id: '$address.state', value: { $sum: 1 }}},
+							{$sort: {_id: 1}},
+							{$project: {id: {$concat: ['US-', '$_id']}, value: 1}}], function(er,rs) {
+					res.send(rs);
+		    	});
+			});
+		});
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
 
 // No Valid Routes Left
 router.route('*')
