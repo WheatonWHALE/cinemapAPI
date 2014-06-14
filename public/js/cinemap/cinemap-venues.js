@@ -23,3 +23,41 @@ $(document).ready(function(){
     var myNewChart = new Chart(ctx).Radar(data);  
   });
 });
+
+
+
+
+
+$(document).ready(function(){
+    var map;
+    AmCharts.ready(function() {
+        $.getJSON("http://www.cinemap.io/api/0.1/amchart/heatmap", function(json) {
+            var areas = [];
+            for (var i = 0; i < json.length; i++) {
+                areas.push(json[i]);
+            }
+
+            map = new AmCharts.AmMap();
+            map.pathToImages = "../ammap/images/";
+
+            map.colorSteps = 10;
+
+            var dataProvider = {
+                mapVar: AmCharts.maps.usaLow,
+                areas: areas
+            };
+
+            map.areasSettings = {
+                autoZoom: true
+            };
+            map.dataProvider = dataProvider;
+
+            var valueLegend = new AmCharts.ValueLegend();
+            valueLegend.right = 10;
+            valueLegend.minValue = "little";
+            valueLegend.maxValue = "a lot!";
+            map.valueLegend = valueLegend;
+            map.write("mapdiv");
+        });
+    });
+});
