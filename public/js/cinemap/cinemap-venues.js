@@ -61,3 +61,38 @@ $(document).ready(function(){
         });
     });
 });
+
+
+$(document).ready(function(){
+    var map2;
+    AmCharts.ready(function() {
+        $.getJSON("http://www.cinemap.io/api/0.1/amchart/faked", function(json) {
+            var areas = [];
+            for (var i = 0; i < json.length; i++) {
+                areas.push(json[i]);
+            }
+
+            map2 = new AmCharts.AmMap();
+            map2.pathToImages = "../ammap/images/";
+
+            map2.colorSteps = 10;
+
+            var dataProvider = {
+                mapVar: AmCharts.maps.usaLow,
+                areas: areas
+            };
+
+            map2.areasSettings = {
+                autoZoom: true
+            };
+            map2.dataProvider = dataProvider;
+
+            var valueLegend = new AmCharts.ValueLegend();
+            valueLegend.right = 10;
+            valueLegend.minValue = "little";
+            valueLegend.maxValue = "a lot!";
+            map2.valueLegend = valueLegend;
+            map2.write("mapdiv2");
+        });
+    });
+});
