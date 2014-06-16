@@ -1,8 +1,19 @@
 {
-  "name": "api",
-  "version": "0.0.0",
-  "description": "",
+  "name": "CineMapAPI",
+  "version": "0.1.0",
+  "description": "CineMap provides users with a way to visualize trends in film exhibition within the continental United States over the roughly 100-year history of feature-length motion pictures",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tarmstro/tarmstro.git"
+  },
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "homepage": "http://cinemap.io",
   "dependencies": {
     "express": "~4.0.0",
     "mongoose": "~3.6.13",
