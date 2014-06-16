@@ -1,23 +1,37 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Hello jQuery</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-        <script>
-            $(document).ready(function(){
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>jQuery UI Slider - Default functionality</title>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+  <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+  <script>
+  $(function() {
+    $( "#slider" ).slider({
+        min: 100,
+        max: 110,
+        slide: function( event, ui ) {}
+    });
+    $( "#slider" ).on( "slide", function( event, ui ){
+        console.log($("#slider").slider("value"));
+        console.log([$("#slider").slider("value")])
+    });
+  });
 
 
-                $.ajax({
-                     type: 'DELETE',
-                     url: 'http://infinite-citadel-8572.herokuapp.com/api/0.1/features/5395e47dfa42fe27f9000004',
-                     success: function(data) {
-                         console.log("has been deleted!")
-                     }
-                 });
-            });
-        </script>
-    </head>
-    <body>
-        <div class="output"></div>
-    </body>
+    $(document).ready(function(){
+        $.getJSON("http://www.cinemap.io/api/0.1/amchart/motionchart?count=2", function(json) {
+            mydata = json;
+        });
+    });
+
+  </script>
+</head>
+<body>
+ 
+<div id="slider"></div>
+ 
+ 
+</body>
 </html>

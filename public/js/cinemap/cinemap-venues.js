@@ -96,3 +96,50 @@ $(document).ready(function(){
         });
     });
 });
+
+
+
+$(function() {
+    var map3l
+    $.getJSON("http://www.cinemap.io/api/0.1/amchart/motionchart", function(json) {
+        temporaldata = json;
+        $( "#slider" ).slider({
+            min: 1,
+            max: temporaldata.length,
+            slide: function( event, ui ) {}
+        });
+ 
+        map3 = new AmCharts.AmMap();
+        map3.pathToImages = "../ammap/images/";
+
+        map3.colorSteps = 10;
+
+        var dataProvider = {
+            mapVar: AmCharts.maps.usaLow,
+            areas: temporaldata[0]
+        };
+
+        map3.areasSettings = {
+            autoZoom: true
+        };
+        map3.dataProvider = dataProvider;
+
+        var valueLegend = new AmCharts.ValueLegend();
+        valueLegend.right = 10;
+        valueLegend.minValue = "little";
+        valueLegend.maxValue = "a lot!";
+        map3.valueLegend = valueLegend;
+        map3.write("mapdiv3");
+
+        $( "#slider" ).on( "slide", function( event, ui ){
+            var dataProvider = {
+                mapVar: AmCharts.maps.usaLow,
+                areas: temporaldata[$("#slider").slider("value") - 1]
+            };
+            console.log($("#slider").slider("value"));
+            map3.dataProvider = dataProvider;
+//            console.log(temporaldata[$("#slider").slider("value")]);
+            map3.write("mapdiv3");
+        });
+    });
+});
