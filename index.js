@@ -519,21 +519,52 @@ router.route('/amchart/heatmap')
 	});
 
 
+function make_state_venue_counts() {
+	var states = ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"];
+	var faked_counts = [];
+	for (var i = 0; i < states.length; i++) {
+		faked_counts.push({
+			id: 'US-' + states[i],
+			value: Math.floor(Math.random()*100)
+		});
+	}
+	return faked_counts;
+}
+
+
 router.route('/amchart/faked')
 	.all(function(req, res, next) {
 		// route-specific middleware
 		next();
 	})
 	.get(function(req, res, next) {
-		var states = ["AL", "AK", "AS", "AZ", "AR", "CA", "CO", "CT", "DE", "DC", "FM", "FL", "GA", "GU", "HI", "ID", "IL", "IN", "IA", "KS", "KY", "LA", "ME", "MH", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV", "NH", "NJ", "NM", "NY", "NC", "ND", "MP", "OH", "OK", "OR", "PW", "PA", "PR", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VI", "VA", "WA", "WV", "WI", "WY"];
-		var faked_counts = [];
-		for (var i = 0; i < states.length; i++) {
-			faked_counts.push({
-				id: 'US-' + states[i],
-				value: Math.floor(Math.random()*100)
-			});
+		res.send(make_state_venue_counts());
+	})
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+router.route('/amchart/motionchart')
+	.all(function(req, res, next) {
+		// route-specific middleware
+		next();
+	})
+	.get(function(req, res, next) {
+		var sentCount = req.query["count"];
+		var total = sentCount ? sentCount : 100;
+		var temporalData = [];
+		for (var i = 0; i < total; i++) {
+			temporalData.push(make_state_venue_counts());
 		}
-		res.send(faked_counts);
+		res.send(temporalData);
+		next();
 	})
 	.put(function(req, res, next) {
 	  next(new Error('not implemented'));
