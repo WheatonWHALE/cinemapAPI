@@ -28,74 +28,74 @@ $(document).ready(function(){
 
 
 
-$(document).ready(function(){
-    var map;
-    AmCharts.ready(function() {
-        $.getJSON("http://www.cinemap.io/api/0.1/amchart/heatmap", function(json) {
-            var areas = [];
-            for (var i = 0; i < json.length; i++) {
-                areas.push(json[i]);
-            }
+// $(document).ready(function(){
+//     var map;
+//     AmCharts.ready(function() {
+//         $.getJSON("http://www.cinemap.io/api/0.1/amchart/heatmap", function(json) {
+//             var areas = [];
+//             for (var i = 0; i < json.length; i++) {
+//                 areas.push(json[i]);
+//             }
 
-            map = new AmCharts.AmMap();
-            map.pathToImages = "../ammap/images/";
+//             map = new AmCharts.AmMap();
+//             map.pathToImages = "../ammap/images/";
 
-            map.colorSteps = 10;
+//             map.colorSteps = 10;
 
-            var dataProvider = {
-                mapVar: AmCharts.maps.usaLow,
-                areas: areas
-            };
+//             var dataProvider = {
+//                 mapVar: AmCharts.maps.usaLow,
+//                 areas: areas
+//             };
 
-            map.areasSettings = {
-                autoZoom: true
-            };
-            map.dataProvider = dataProvider;
+//             map.areasSettings = {
+//                 autoZoom: true
+//             };
+//             map.dataProvider = dataProvider;
 
-            var valueLegend = new AmCharts.ValueLegend();
-            valueLegend.right = 10;
-            valueLegend.minValue = "little";
-            valueLegend.maxValue = "a lot!";
-            map.valueLegend = valueLegend;
-            map.write("mapdiv");
-        });
-    });
-});
+//             var valueLegend = new AmCharts.ValueLegend();
+//             valueLegend.right = 10;
+//             valueLegend.minValue = "little";
+//             valueLegend.maxValue = "a lot!";
+//             map.valueLegend = valueLegend;
+//             map.write("mapdiv");
+//         });
+//     });
+// });
 
 
-$(document).ready(function(){
-    var map2;
-    AmCharts.ready(function() {
-        $.getJSON("http://www.cinemap.io/api/0.1/amchart/faked", function(json) {
-            var areas = [];
-            for (var i = 0; i < json.length; i++) {
-                areas.push(json[i]);
-            }
+// $(document).ready(function(){
+//     var map2;
+//     AmCharts.ready(function() {
+//         $.getJSON("http://www.cinemap.io/api/0.1/amchart/faked", function(json) {
+//             var areas = [];
+//             for (var i = 0; i < json.length; i++) {
+//                 areas.push(json[i]);
+//             }
 
-            map2 = new AmCharts.AmMap();
-            map2.pathToImages = "../ammap/images/";
+//             map2 = new AmCharts.AmMap();
+//             map2.pathToImages = "../ammap/images/";
 
-            map2.colorSteps = 10;
+//             map2.colorSteps = 10;
 
-            var dataProvider = {
-                mapVar: AmCharts.maps.usaLow,
-                areas: areas
-            };
+//             var dataProvider = {
+//                 mapVar: AmCharts.maps.usaLow,
+//                 areas: areas
+//             };
 
-            map2.areasSettings = {
-                autoZoom: true
-            };
-            map2.dataProvider = dataProvider;
+//             map2.areasSettings = {
+//                 autoZoom: true
+//             };
+//             map2.dataProvider = dataProvider;
 
-            var valueLegend = new AmCharts.ValueLegend();
-            valueLegend.right = 10;
-            valueLegend.minValue = "little";
-            valueLegend.maxValue = "a lot!";
-            map2.valueLegend = valueLegend;
-            map2.write("mapdiv2");
-        });
-    });
-});
+//             var valueLegend = new AmCharts.ValueLegend();
+//             valueLegend.right = 10;
+//             valueLegend.minValue = "little";
+//             valueLegend.maxValue = "a lot!";
+//             map2.valueLegend = valueLegend;
+//             map2.write("mapdiv2");
+//         });
+//     });
+// });
 
 
 
@@ -106,6 +106,7 @@ $(function() {
         $( "#slider" ).slider({
             min: 1,
             max: temporaldata.length,
+            value: 1,
             slide: function( event, ui ) {}
         });
  
@@ -134,11 +135,9 @@ $(function() {
         $( "#slider" ).on( "slide", function( event, ui ){
             var dataProvider = {
                 mapVar: AmCharts.maps.usaLow,
-                areas: temporaldata[$("#slider").slider("value") - 1]
+                areas: temporaldata[ui.value - 1]
             };
-            console.log($("#slider").slider("value"));
             map3.dataProvider = dataProvider;
-//            console.log(temporaldata[$("#slider").slider("value")]);
             map3.write("mapdiv3");
         });
     });
