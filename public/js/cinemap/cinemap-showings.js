@@ -57,52 +57,7 @@ $(document).ready(function(){
 // am chart \
 // ----------
 
-  var chartData = generateChartData();
-
-  var chart = AmCharts.makeChart("chartdiv", {
-    "type": "serial",
-    "theme": "dark",
-    "pathToImages": "http://www.amcharts.com/lib/3/images/",
-    "dataProvider": chartData,
-    "valueAxes": [{
-        "position": "left",
-        "title": "Count"
-    }],
-    "graphs": [{
-        "fillAlphas": 0.4,
-        "valueField": "counts"
-    }],
-    "chartScrollbar": {},
-    "chartCursor": {
-        "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
-        "cursorPosition": "mouse"
-    },
-    "categoryField": "date",
-    "categoryAxis": {
-        "minPeriod": "mm",
-        "parseDates": true
-    }
-  });
-
-  chart.addListener("dataUpdated", zoomChart);
-  zoomChart();
-  function zoomChart() {
-    chart.zoomToIndexes(chartData.length - 250, chartData.length - 1);
-  }
-});
-
-// generate some data
-function generateChartData() {
-  console.log("generating data");
   var chartData = [];
-
-  getJsonData(chartData);
-  
-  console.log("returning")
-  return chartData;
-} // ends generateChartData
-
-function getJsonData (chartData) {
   $.getJSON("http://www.cinemap.io/api/0.1/counts/showtimes", function(json) {
           for (var i = 0; i < json.length; i++) {
             var newDate = json[i]["_id"];
@@ -114,10 +69,37 @@ function getJsonData (chartData) {
               date: newDate,
               counts: counts
             }); // ends chartData.push
+
           } // ends for loop
-    }); // ends getjson    
-}
+          var chart = AmCharts.makeChart("chartdiv", {
+            "type": "serial",
+            "theme": "dark",
+            "pathToImages": "http://www.amcharts.com/lib/3/images/",
+            "dataProvider": chartData,
+            "valueAxes": [{
+                "position": "left",
+                "title": "Count"
+            }],
+            "graphs": [{
+                "fillAlphas": 0.4,
+                "valueField": "counts"
+            }],
+            "chartScrollbar": {},
+            "chartCursor": {
+                "categoryBalloonDateFormat": "JJ:NN, DD MMMM",
+                "cursorPosition": "mouse"
+            },
+            "categoryField": "date",
+            "categoryAxis": {
+                "minPeriod": "mm",
+                "parseDates": true
+            }
+          });
 
-
-
-
+          chart.addListener("dataUpdated", zoomChart);
+          zoomChart();
+          function zoomChart() {
+            chart.zoomToIndexes(chartData.length - 250, chartData.length - 1);
+          }
+    }); // ends getjson  
+});
