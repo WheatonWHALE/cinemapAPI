@@ -57,8 +57,6 @@ $(document).ready(function(){
 // am chart \
 // ----------
 
-
-
   var chartData = generateChartData();
 
   var chart = AmCharts.makeChart("chartdiv", {
@@ -87,28 +85,22 @@ $(document).ready(function(){
   });
 
   chart.addListener("dataUpdated", zoomChart);
-  // when we apply theme, the dataUpdated event is fired even before we add listener, so
-  // we need to call zoomChart here
   zoomChart();
-  // this method is called when chart is first inited as we listen for "dataUpdated" event
   function zoomChart() {
-      // different zoom methods can be used - zoomToIndexes, zoomToDates, zoomToCategoryValues
-      chart.zoomToIndexes(chartData.length - 250, chartData.length - 1);
+    chart.zoomToIndexes(chartData.length - 250, chartData.length - 1);
   }
-
-  // generate some random data, quite different range
-  function generateChartData() {
-    console.log("generating data");
-    var chartData = [];
-    //var firstDate = new Date();
-    //var firstDate = 
-
-    getJsonData(chartData);
-    
-    console.log("returning")
-    return chartData;
-  } // ends generateChartData
 });
+
+// generate some data
+function generateChartData() {
+  console.log("generating data");
+  var chartData = [];
+
+  getJsonData(chartData);
+  
+  console.log("returning")
+  return chartData;
+} // ends generateChartData
 
 function getJsonData (chartData) {
   $.getJSON("http://www.cinemap.io/api/0.1/counts/showtimes", function(json) {
