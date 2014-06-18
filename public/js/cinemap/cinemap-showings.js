@@ -51,6 +51,14 @@ $(document).ready(function(){
 	var myNewChart = new Chart(ctx).Line(data);  
   });
 
+//=========================================================================================================================================================
+
+//----------
+// am chart \
+// ----------
+
+
+
   var chartData = generateChartData();
 
   var chart = AmCharts.makeChart("chartdiv", {
@@ -60,11 +68,11 @@ $(document).ready(function(){
     "dataProvider": chartData,
     "valueAxes": [{
         "position": "left",
-        "title": "Unique visitors"
+        "title": "Count"
     }],
     "graphs": [{
         "fillAlphas": 0.4,
-        "valueField": "visits"
+        "valueField": "counts"
     }],
     "chartScrollbar": {},
     "chartCursor": {
@@ -90,28 +98,33 @@ $(document).ready(function(){
 
   // generate some random data, quite different range
   function generateChartData() {
+    console.log("generating data");
     var chartData = [];
-    // current date
-    var firstDate = new Date();
-    // now set 500 minutes back
-    firstDate.setMinutes(firstDate.getDate() - 1000);
+    //var firstDate = new Date();
+    //var firstDate = 
 
-    // and generate 500 data items
-    for (var i = 0; i < 500; i++) {
-      var newDate = new Date(firstDate);
-      // each time we add one minute
-      newDate.setMinutes(newDate.getMinutes() + i);
-      // some random number
-      var visits = Math.round(Math.random() * 40 + 10 + i + Math.random() * i / 5);
-      // add data item to the array
-      chartData.push({
-          date: newDate,
-           visits: visits
-      });
-    }
+    getJsonData(chartData);
+    
+    console.log("returning")
     return chartData;
-  }
+  } // ends generateChartData
 });
+
+function getJsonData (chartData) {
+  $.getJSON("http://www.cinemap.io/api/0.1/counts/showtimes", function(json) {
+          for (var i = 0; i < json.length; i++) {
+            var newDate = json[i]["_id"];
+            // set count
+            var counts = json[i]["count"];
+            // push data to the array
+            console.log("before push");
+            chartData.push({
+              date: newDate,
+              counts: counts
+            }); // ends chartData.push
+          } // ends for loop
+    }); // ends getjson    
+}
 
 
 
