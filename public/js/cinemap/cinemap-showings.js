@@ -129,7 +129,7 @@ $(document).ready(function(){
               },
 
               {
-                title: "second data set",
+                title: "Rated PG Movies",
                 fieldMappings: [{
                   fromField: "value",
                   toField: "value"
@@ -142,7 +142,7 @@ $(document).ready(function(){
               },
 
               {
-                title: "third data set",
+                title: "Rated PG-13 Movies",
                 fieldMappings: [{
                   fromField: "value",
                   toField: "value"
@@ -155,7 +155,7 @@ $(document).ready(function(){
               },
 
               {
-                title: "fourth data set",
+                title: "Rated R Movies",
                 fieldMappings: [{
                   fromField: "value",
                   toField: "value"
