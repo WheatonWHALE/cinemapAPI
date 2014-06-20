@@ -576,6 +576,39 @@ router.route('/amchart/motionchart')
 	  next(new Error('not implemented'));
 	});
 
+router.route('/search/venues')
+	.all(function(req, res, next) {
+		// route-specific middleware
+		next();
+	})
+	.get(function(req, res, next){
+		console.log(" inside get of /search/venues");
+		mongo.Db.connect(mongoUri, function (err, db) {
+			db.collection('venues', function(er, collection) {
+				var query = {};
+				for (var key in req.query) {
+					query[key] = new Date(req.query[key]);
+				} // ends for 
+
+				collection.find(query).toArray(function(er,rs) {
+		    		res.send(rs);
+		    	}); // ends collection.find
+			}); // ends db.collection
+		}); // ends end mongo.Db.connect
+	}) // ends .get
+	
+	.put(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.post(function(req, res, next) {
+	  next(new Error('not implemented'));
+	})
+	.delete(function(req, res, next) {
+	  next(new Error('not implemented'));
+	});
+
+
+
 
 // No Valid Routes Left
 router.route('*')
