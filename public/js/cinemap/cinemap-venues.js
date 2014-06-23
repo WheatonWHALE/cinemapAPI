@@ -142,3 +142,16 @@ $(function() {
         });
     });
 });
+function findVenues (argument) {
+    $.ajax({
+        type: 'GET',
+        url: 'http://infinite-citadel-8572.herokuapp.com/api/0.1/venues/',
+        success: function(data) {
+            console.log("finding data");
+        }
+    })
+}
+$('.searchinput').click(function(){
+    var x = $('.inputField').val();
+    findVenues(x);
+});
