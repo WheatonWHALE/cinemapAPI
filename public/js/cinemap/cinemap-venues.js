@@ -145,13 +145,15 @@ $(function() {
 function findVenues (argument) {
     $.ajax({
         type: 'GET',
-        url: 'http://infinite-citadel-8572.herokuapp.com/api/0.1/venues/',
+        url: 'http://infinite-citadel-8572.herokuapp.com/api/0.1/search/venues',
         success: function(data) {
             console.log("finding data");
+            console.log(data);
         }
-    })
+    });
 }
 $('.searchinput').click(function(){
     var x = $('.inputField').val();
+    console.log(x);
     findVenues(x);
 });
