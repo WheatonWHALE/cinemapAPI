@@ -585,9 +585,10 @@ router.route('/search/venues')
 		console.log(" inside get of /search/venues");
 		mongo.Db.connect(mongoUri, function (err, db) {
 			db.collection('venues', function(er, collection) {
+				console.log(req.query);
 				var query = {};
 				for (var key in req.query) {
-					query[key] = new Date(req.query[key]);
+					query[key] = req.query[key];
 				} // ends for 
 
 				collection.find(query).toArray(function(er,rs) {
