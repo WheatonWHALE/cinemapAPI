@@ -586,11 +586,8 @@ router.route('/search/venues')
 		mongo.Db.connect(mongoUri, function (err, db) {
 			db.collection('venues', function(er, collection) {
 				var lookfor = req.query["name"];
-				var regex = RegExp("/." + lookfor + "./");
-				var x = {"name": new RegExp('^' + lookfor)};
-				console.log(lookfor);
-				// collection.find({"name": / /i}).toArray(function(er,rs) {
-				collection.find(x).toArray(function(er,rs) {
+				var regex = new RegExp(lookfor, "i");
+				collection.find({'name': regex}).toArray(function(er,rs) {
 		    		res.send(rs);
 		    		console.log(rs);
 		    	}); // ends collection.find
