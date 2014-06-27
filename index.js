@@ -582,17 +582,14 @@ router.route('/search/venues')
 		next();
 	})
 	.get(function(req, res, next){
-		console.log(" inside get of /search/venues");
+		//console.log(" inside get of /search/venues");
 		mongo.Db.connect(mongoUri, function (err, db) {
 			db.collection('venues', function(er, collection) {
-				console.log(req.query);
-				var query = {};
-				for (var key in req.query) {
-					query[key] = req.query[key];
-				} // ends for 
-
-				collection.find(query).toArray(function(er,rs) {
+				var lookfor = req.query["name"];
+				var regex = new RegExp(lookfor, "i");
+				collection.find({'name': regex}).toArray(function(er,rs) {
 		    		res.send(rs);
+		    		console.log(rs);
 		    	}); // ends collection.find
 			}); // ends db.collection
 		}); // ends end mongo.Db.connect

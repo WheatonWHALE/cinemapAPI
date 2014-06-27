@@ -22,6 +22,23 @@ $(document).ready(function(){
     //This will get the first returned node in the jQuery collection.
     var myNewChart = new Chart(ctx).Radar(data);  
   });
+
+      $("#searchinput").click(function(){
+        var x = $("#inputField").val();
+        console.log(x);
+        getVenues(x);
+    });
+
+    function getVenues (name) {
+        $.ajax({
+            type: 'GET',
+            url: 'http://www.cinemap.io/api/0.1/search/venues/?name='+name, 
+            success: function(data) {
+                console.log(data);
+            }
+        });
+    }
+
 });
 
 
@@ -142,18 +159,4 @@ $(function() {
         });
     });
 });
-function findVenues (argument) {
-    $.ajax({
-        type: 'GET',
-        url: 'http://infinite-citadel-8572.herokuapp.com/api/0.1/search/venues',
-        success: function(data) {
-            console.log("finding data");
-            console.log(data);
-        }
-    });
-}
-$('.searchinput').click(function(){
-    var x = $('.inputField').val();
-    console.log(x);
-    findVenues(x);
-});
+
