@@ -585,8 +585,12 @@ router.route('/search/venues')
 		//console.log(" inside get of /search/venues");
 		mongo.Db.connect(mongoUri, function (err, db) {
 			db.collection('venues', function(er, collection) {
-				console.log();
-				collection.find({"name": /req.query/}).toArray(function(er,rs) {
+				var lookfor = req.query["name"];
+				var regex = RegExp("/." + lookfor + "./");
+				var x = {"name": new RegExp('^' + lookfor)};
+				console.log(lookfor);
+				// collection.find({"name": / /i}).toArray(function(er,rs) {
+				collection.find(x).toArray(function(er,rs) {
 		    		res.send(rs);
 		    		console.log(rs);
 		    	}); // ends collection.find
