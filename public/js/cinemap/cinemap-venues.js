@@ -29,12 +29,13 @@ $(document).ready(function(){
         getVenues(x);
     });
 
-    function getVenues (name) {
+    function getVenues (venueName) {
         $.ajax({
             type: 'GET',
-            url: 'http://www.cinemap.io/api/0.1/search/venues/?name='+name, 
+            url: 'http://www.cinemap.io/api/0.1/search/venues/?name='+venueName, 
             success: function(data) {
-                console.log(data);
+                console.log(data["name"]);
+
             }
         });
     }
