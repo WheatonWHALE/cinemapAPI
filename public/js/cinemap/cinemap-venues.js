@@ -35,9 +35,16 @@ $(document).ready(function(){
             url: 'http://www.cinemap.io/api/0.1/search/venues/?name='+venueName, 
             success: function(data) {
                 console.log(data["name"]);
-
+                CreateDiv(data);
             }
         });
+    }
+
+    function CreateDiv (data) {
+        $.each(data, function(index, val) {
+            // ID = data[index]['_id'];
+            $('.content').append("<div class = 'panel panel-info'><div class = 'panel-heading'><h3 class='panel-title'>" + data[index]['name'] + "</h3></div><div class = 'panel-body'>" + data[index]['address']['street'] + " " + data[index]['address']['city'] + " " + data[index]['address']['state'] + " " + data[index]['address']['zip'] + "</div></div></div>");
+        }); // ends each
     }
 
 });
